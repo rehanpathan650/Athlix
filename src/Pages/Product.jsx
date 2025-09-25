@@ -3,7 +3,7 @@ import Navbar from '../Components/Navbar'
 
 function Product() {
   return (
-    <div className='min-h-screen px-4'>
+    <div className='min-h-screen'>
       <Navbar />
     </div>
   )

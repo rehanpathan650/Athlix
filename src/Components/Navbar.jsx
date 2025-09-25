@@ -2,19 +2,20 @@ import React,{useState} from 'react'
 import { FaRegUser } from "react-icons/fa";
 import { IoIosSearch } from "react-icons/io";
 import { useNavigate } from "react-router-dom"
+import { IoCartOutline } from "react-icons/io5";
 
 function Navbar() {
-    const [isLoggedin, setIsLoggedIn] = useState(localStorage.getItem("isLoggedin")==="true");
+    const [isLoggedin, setIsLoggedIn] = useState(JSON.parse(localStorage.getItem("isLoggedin")) || false);
     const navigate = useNavigate();
   
     return (
-         <nav className='flex justify-between items-center '>
+         <nav className='flex justify-between items-center border-b border-gray-200 shadow-sm px-4 py-0 my-0'>
                  <div>
                     <button onClick={()=> {navigate("/")}}>
-                    <img src="./athlix2.png" alt=""  className='h-24 pl-2'/>
+                    <img src="./athlix2.png" alt="" sizes='20' className='h-20 pl-2'/>
                     </button>
                  </div>
-                 <div className='flex gap-10'>
+                 <div className='flex gap-10 text-gray-500'>
                     <div>
                      <button onClick={()=> {navigate("/about")}}>About</button>
                     </div>
@@ -26,11 +27,16 @@ function Navbar() {
                      <IoIosSearch className='absolute right-2 top-2' />
                     </div>
                  </div>
-                 <div className=''>
+                 <div className='text-gray-500'>
                       {isLoggedin ? ( 
-                        <div className='flex gap-3'>
+                        <div className='flex gap-5'>
                             <FaRegUser size={20}/>
-                            <button className=''>Logout</button>
+                            <IoCartOutline size={24}/>
+                            <button onClick={()=> {
+                                localStorage.setItem("isLoggedin", JSON.stringify(false));
+                                setIsLoggedIn(false)
+                                navigate("/");
+                            }} className=''>Logout</button>
                         </div> 
                     ) : ( 
                      <div className='flex gap-2'>
