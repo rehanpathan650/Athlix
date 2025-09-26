@@ -1,12 +1,13 @@
 import React from 'react'
 import Navbar from '../Components/Navbar'
+import Footer from '../Components/Footer'
 
 function About() {
   return (
     <div className='min-h-screen'>
        <Navbar />
        <br />
-       <div className='px-10'>
+       <div className='px-10 '>
         <div className='font-bold text-3xl'>About Athlix</div>
        <br />
        <hr />
@@ -42,6 +43,9 @@ function About() {
          It’s about confidence, self-expression, and the freedom to move the way you want.</p>
         </div>
     </div>
+    <br />
+    <br />
+    <Footer />
        </div>
   )
 }

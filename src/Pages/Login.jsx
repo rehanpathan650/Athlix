@@ -1,15 +1,23 @@
 import React, { useState } from 'react'
 import Navbar from '../Components/Navbar';
 import {useNavigate} from "react-router-dom"
+import { useRecoilValue, useSetRecoilState } from 'recoil';
+import { userAtom } from '../state/userAtom';
+import {toast} from "react-toastify"
 
 function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const setUser = useSetRecoilState(userAtom)
 
   const navigate = useNavigate();
 
   function handleClick(){
-     localStorage.setItem("isLoggedin",JSON.stringify(true));
+    if(!email || !password){
+       toast.error("Please fill in both email and password");
+       return;
+    }
+     setUser({email})
      navigate("/");    
   }
   

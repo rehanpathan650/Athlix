@@ -1,12 +1,27 @@
-import React from 'react'
-import Navbar from '../Components/Navbar'
+import React from "react";
+import { useRecoilValue } from "recoil";
+import { allProductsSelector } from "../state/allProductSelector";
+import ProductCard from "../Components/ProductCard";
+import Navbar from "../Components/Navbar";
+import Footer from "../Components/Footer";
 
 function Product() {
+  const allProducts = useRecoilValue(allProductsSelector);
+
   return (
-    <div className='min-h-screen'>
+    <div className="min-h-screen flex flex-col gap-2">
       <Navbar />
+      <div className="py-10 px-4">
+      <h1 className="text-3xl font-bold mb-6">All Products</h1>
+      <div className="flex flex-wrap gap-6">
+        {allProducts.map((product) => (
+          <ProductCard key={product.id} product={product} />
+        ))}
+      </div>
+      </div>
+      <Footer />
     </div>
-  )
+  );
 }
 
-export default Product
+export default Product;
