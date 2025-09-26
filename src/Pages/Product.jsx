@@ -11,7 +11,7 @@ function Product() {
   return (
     <div className="min-h-screen flex flex-col gap-2">
       <Navbar />
-      <div className="py-10 px-4">
+      <div className="py-10 px-6">
       <h1 className="text-3xl font-bold mb-6">All Products</h1>
       <div className="flex flex-wrap gap-6">
         {allProducts.map((product) => (

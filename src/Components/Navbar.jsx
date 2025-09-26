@@ -16,7 +16,7 @@ function Navbar() {
   const isActive = (path) => location.pathname === path;
 
   return (
-    <nav className="flex justify-between items-center border-b border-gray-200 shadow-sm px-4 py-0 my-0">
+    <nav className="flex justify-between items-center border-b border-gray-200 shadow-sm px-4 ">
       <div>
         <button
           onClick={() => {
@@ -72,7 +72,11 @@ function Navbar() {
           <div className="flex gap-5 justify-center items-center">
             <button
               onClick={() => navigate("/my-orders")}
-              className="px-3 py-1 hover:text-gray-900"
+              className={
+              isActive("/my-orders")
+                ? "text-gray-700 border-b-2 border-gray-400 px-2 py-1"
+                : "hover:text-gray-900 px-2 py-1"
+            }
             >
               My Orders
             </button>
