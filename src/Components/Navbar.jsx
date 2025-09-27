@@ -18,7 +18,7 @@ function Navbar() {
   const isActive = (path) => location.pathname === path;
 
   return (
-    <nav className="flex justify-between items-center border-b border-gray-200 shadow-sm px-4 py-2 relative">
+    <nav className="flex justify-between items-center border-b border-gray-200 shadow-sm px-6 py-1 relative">
       {/* Logo */}
       <button onClick={() => navigate("/")}>
         <img src={athlix} alt="logo" className="h-14 sm:h-16" />
