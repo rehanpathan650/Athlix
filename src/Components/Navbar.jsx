@@ -1,8 +1,9 @@
 import React, { useState } from "react";
 import { FaRegUser } from "react-icons/fa";
 import { IoIosSearch } from "react-icons/io";
-import { useLocation, useNavigate } from "react-router-dom";
 import { IoCartOutline } from "react-icons/io5";
+import { HiMenu, HiX } from "react-icons/hi";
+import { useLocation, useNavigate } from "react-router-dom";
 import { userAtom } from "../state/userAtom";
 import { useRecoilValue, useSetRecoilState } from "recoil";
 import athlix from "../assets/athlix2.png";
@@ -12,71 +13,60 @@ function Navbar() {
   const setUser = useSetRecoilState(userAtom);
   const navigate = useNavigate();
   const location = useLocation();
+  const [menuOpen, setMenuOpen] = useState(false);
 
   const isActive = (path) => location.pathname === path;
 
   return (
-    <nav className="flex justify-between items-center border-b border-gray-200 shadow-sm px-4 ">
-      <div>
+    <nav className="flex justify-between items-center border-b border-gray-200 shadow-sm px-4 py-2 relative">
+      {/* Logo */}
+      <button onClick={() => navigate("/")}>
+        <img src={athlix} alt="logo" className="h-14 sm:h-16" />
+      </button>
+
+      {/* Desktop Nav */}
+      <div className="hidden md:flex gap-8 text-gray-500 items-center">
         <button
-          onClick={() => {
-            navigate("/");
-          }}
+          onClick={() => navigate("/about")}
+          className={
+            isActive("/about")
+              ? "text-gray-700 border-b-2 border-gray-400"
+              : "hover:text-gray-900"
+          }
         >
-          <img src={athlix} alt="" sizes="20" className="h-20 pl-2" />
+          About
         </button>
-      </div>
-      <div className="flex gap-10 text-gray-500">
-        <div>
-          <button
-            onClick={() => {
-              navigate("/about");
-            }}
-            className={
-              isActive("/about")
-                ? "text-gray-700 border-b-2 border-gray-400"
-                : "hover:text-gray-900"
-            }
-          >
-            About
-          </button>
-        </div>
-        <div>
-          <button
-            onClick={() => {
-              navigate("/product");
-            }}
-            className={
-              isActive("/product")
-                ? "text-gray-700 border-b-2 border-gray-400"
-                : "hover:text-gray-900"
-            }
-          >
-            Products
-          </button>
-        </div>
-        <div className="relative w-72">
+        <button
+          onClick={() => navigate("/product")}
+          className={
+            isActive("/product")
+              ? "text-gray-700 border-b-2 border-gray-400"
+              : "hover:text-gray-900"
+          }
+        >
+          Products
+        </button>
+        <div className="relative w-56 lg:w-72">
           <input
             type="text"
             className="w-full pl-3 pr-10 py-1 rounded bg-gray-100 text-black"
             placeholder="Search"
           />
-          <IoIosSearch
-            className="absolute right-2 top-1/2 -translate-y-1/2 aria-label"
-            aria-label="Shopping Cart"
-          />
+          <IoIosSearch className="absolute right-2 top-1/2 -translate-y-1/2 text-gray-500" />
         </div>
       </div>
-      <div className="text-gray-500">
+
+      {/* Desktop User Section */}
+      <div className="hidden md:flex text-gray-500 items-center gap-5">
         {user ? (
-          <div className="flex gap-5 justify-center items-center">
+          <>
             <button
               onClick={() => navigate("/my-orders")}
               className={
-              isActive("/my-orders")
-                ? "text-gray-700 border-b-2 border-gray-400 px-2 py-1"
-                : "hover:text-gray-900 px-2 py-1"
-            }
+                isActive("/my-orders")
+                  ? "text-gray-700 border-b-2 border-gray-400 px-2 py-1"
+                  : "hover:text-gray-900 px-2 py-1"
+              }
             >
               My Orders
             </button>
@@ -93,13 +83,11 @@ function Navbar() {
             >
               Logout
             </button>
-          </div>
+          </>
         ) : (
-          <div className="flex gap-2">
+          <>
             <button
-              onClick={() => {
-                navigate("/login");
-              }}
+              onClick={() => navigate("/login")}
               className={
                 isActive("/login")
                   ? "text-gray-700 border-b-2 border-gray-400 px-3 py-1"
@@ -109,20 +97,109 @@ function Navbar() {
               Login
             </button>
             <button
+              onClick={() => navigate("/signup")}
               className={
                 isActive("/signup")
                   ? "text-gray-700 border-b-2 border-gray-400 px-3 py-1"
                   : "px-3 py-1 hover:text-gray-900"
               }
-              onClick={() => {
-                navigate("/signup");
-              }}
             >
               Signup
             </button>
-          </div>
+          </>
         )}
       </div>
+
+      {/* Mobile Menu Button */}
+      <div className="md:hidden flex items-center">
+        <button onClick={() => setMenuOpen(!menuOpen)}>
+          {menuOpen ? <HiX size={28} /> : <HiMenu size={28} />}
+        </button>
+      </div>
+
+      {/* Mobile Dropdown */}
+      {menuOpen && (
+        <div className="absolute top-full left-0 w-full bg-white shadow-md flex flex-col items-start px-4 py-3 md:hidden z-50">
+          <button
+            onClick={() => {
+              navigate("/about");
+              setMenuOpen(false);
+            }}
+            className="py-2 w-full text-left hover:text-gray-900"
+          >
+            About
+          </button>
+          <button
+            onClick={() => {
+              navigate("/product");
+              setMenuOpen(false);
+            }}
+            className="py-2 w-full text-left hover:text-gray-900"
+          >
+            Products
+          </button>
+          <div className="w-full py-2">
+            <input
+              type="text"
+              className="w-full pl-3 pr-10 py-1 rounded bg-gray-100 text-black"
+              placeholder="Search"
+            />
+          </div>
+          {user ? (
+            <>
+              <button
+                onClick={() => {
+                  navigate("/my-orders");
+                  setMenuOpen(false);
+                }}
+                className="py-2 w-full text-left hover:text-gray-900"
+              >
+                My Orders
+              </button>
+              <button
+                onClick={() => {
+                  navigate("/cart");
+                  setMenuOpen(false);
+                }}
+                className="py-2 w-full text-left hover:text-gray-900"
+              >
+                Cart
+              </button>
+              <button
+                onClick={() => {
+                  setUser(null);
+                  navigate("/");
+                  setMenuOpen(false);
+                }}
+                className="py-2 w-full text-left hover:text-gray-900"
+              >
+                Logout
+              </button>
+            </>
+          ) : (
+            <>
+              <button
+                onClick={() => {
+                  navigate("/login");
+                  setMenuOpen(false);
+                }}
+                className="py-2 w-full text-left hover:text-gray-900"
+              >
+                Login
+              </button>
+              <button
+                onClick={() => {
+                  navigate("/signup");
+                  setMenuOpen(false);
+                }}
+                className="py-2 w-full text-left hover:text-gray-900"
+              >
+                Signup
+              </button>
+            </>
+          )}
+        </div>
+      )}
     </nav>
   );
 }

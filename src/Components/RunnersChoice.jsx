@@ -1,17 +1,31 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useRecoilValue } from 'recoil';
-import {runningShoes} from '../state/runningShoes.js';
+import { runningShoes } from '../state/runningShoes.js';
 import { FaArrowLeftLong, FaArrowRightLong } from "react-icons/fa6";
 import ProductCard from './ProductCard.jsx';
 
 function RunnersChoice() {
   const [startIndex, setStartIndex] = useState(0);
+  const [visibleCount, setVisibleCount] = useState(5);
   const products = useRecoilValue(runningShoes);
 
-  // Example: filter products for runners (customize as needed)
+  // Example: filter products for runners
   const runnersProducts = products;
-  
-  const visibleCount = 5;
+
+  // Responsive visible count
+  useEffect(() => {
+    const updateVisibleCount = () => {
+      if (window.innerWidth < 640) setVisibleCount(1);      // mobile
+      else if (window.innerWidth < 1024) setVisibleCount(3); // tablet
+      else setVisibleCount(5);                              // desktop
+    };
+
+    updateVisibleCount();
+    window.addEventListener("resize", updateVisibleCount);
+
+    return () => window.removeEventListener("resize", updateVisibleCount);
+  }, []);
+
   const visibleProducts = runnersProducts.slice(startIndex, startIndex + visibleCount);
 
   const handlePrev = () => {
@@ -34,12 +48,11 @@ function RunnersChoice() {
           <FaArrowLeftLong />
         </button>
 
-        <div className="flex gap-6 overflow-hidden">
-          {visibleProducts.map(product => (
-            <ProductCard key={product.id} product={product} />
-          ))}
-        </div>
-
+        <div className="flex-1 flex gap-4 sm:gap-6 overflow-hidden">
+  {visibleProducts.map((product) => (
+    <ProductCard key={product.id} product={product} />
+  ))}
+</div>
         <button
           onClick={handleNext}
           disabled={startIndex + visibleCount >= runnersProducts.length}

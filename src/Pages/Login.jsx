@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import Navbar from '../Components/Navbar';
 import {useNavigate} from "react-router-dom"
-import { useRecoilValue, useSetRecoilState } from 'recoil';
+import { useSetRecoilState } from 'recoil';
 import { userAtom } from '../state/userAtom';
 import {toast} from "react-toastify"
 
@@ -22,25 +22,48 @@ function Login() {
   }
   
   return (
-    <div className='min-h-screen gap-2'>
+    <div className='min-h-screen flex flex-col'>
       <Navbar />
-    <div className='h-screen flex items-center px-100 bg-cover bg-center'
-         style={{backgroundImage:"url('./login.png')"}}>
-         <div className='grid grid-cols-1 gap-8'>
-            <div className='w-[320px]'>
-              <h1 className='text-3xl font-bold'>Welcome Back</h1> 
-              <p>Log in now to explore all the features and benefits of our platform and see what's new</p>
-            </div>
-            <div className='grid gap-5 items-center'>
-              <input required onChange={(e)=> setEmail(e.target.value)} type="text" placeholder='Email Address' className='py-2 px-2 border rounded'/>
-              <input required onChange={(e)=> setPassword(e.target.value)} type="password" placeholder='Password' className='py-2 px-2 border rounded'/>
-              <p>Forget Password?</p>
-              <button onClick={handleClick} className='border rounded py-2 px-2 bg-black text-white'>Login</button>
-            </div>
-         </div>
-    </div>
+      <div 
+        className='flex-1 flex items-center justify-center bg-cover bg-center px-4 sm:px-6'
+        style={{backgroundImage:"url('./login.png')"}}
+      >
+        <div className='bg-white/80 backdrop-blur-sm p-6 rounded-lg shadow-md max-w-sm w-full space-y-6'>
+          <div>
+            <h1 className='text-2xl sm:text-3xl font-bold'>Welcome Back</h1> 
+            <p className='text-sm sm:text-base text-gray-700'>
+              Log in now to explore all the features and benefits of our platform.
+            </p>
+          </div>
+          <div className='grid gap-4'>
+            <input 
+              required 
+              onChange={(e)=> setEmail(e.target.value)} 
+              type="text" 
+              placeholder='Email Address' 
+              className='py-2 px-3 border rounded w-full'
+            />
+            <input 
+              required 
+              onChange={(e)=> setPassword(e.target.value)} 
+              type="password" 
+              placeholder='Password' 
+              className='py-2 px-3 border rounded w-full'
+            />
+            <p className='text-sm text-right text-blue-600 cursor-pointer'>
+              Forgot Password?
+            </p>
+            <button 
+              onClick={handleClick} 
+              className='w-full border rounded py-2 px-3 bg-black text-white font-semibold'
+            >
+              Login
+            </button>
+          </div>
+        </div>
+      </div>
     </div>
   )
 }
 
-export default Login;
+export default Login

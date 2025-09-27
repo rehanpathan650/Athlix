@@ -1,28 +1,48 @@
-import React, { useState } from 'react'
-import { useRecoilValue } from 'recoil';
-import { productsAtom } from '../state/productsAtom';
-import ProductCard from './ProductCard';
+import React, { useState, useEffect } from "react";
+import { useRecoilValue } from "recoil";
+import { productsAtom } from "../state/productsAtom";
+import ProductCard from "./ProductCard";
 import { FaArrowLeftLong, FaArrowRightLong } from "react-icons/fa6";
 
 function FeaturedProducts() {
   const [startIndex, setStartIndex] = useState(0);
+  const [visibleCount, setVisibleCount] = useState(5); // default desktop
   const products = useRecoilValue(productsAtom);
-  const visibleCount = 5;
+
+  // Adjust visible count based on screen size
+  useEffect(() => {
+    const updateVisibleCount = () => {
+      if (window.innerWidth < 640) {
+        setVisibleCount(1); // mobile
+      } else if (window.innerWidth < 1024) {
+        setVisibleCount(3); // tablet
+      } else {
+        setVisibleCount(5); // desktop
+      }
+    };
+
+    updateVisibleCount();
+    window.addEventListener("resize", updateVisibleCount);
+    return () => window.removeEventListener("resize", updateVisibleCount);
+  }, []);
+
   const visibleProducts = products.slice(startIndex, startIndex + visibleCount);
 
   const handlePrev = () => {
-     if(startIndex > 0) setStartIndex(startIndex - 1);
-  }
+    if (startIndex > 0) setStartIndex(startIndex - 1);
+  };
 
   const handleNext = () => {
-     if(startIndex + visibleCount < products.length) {
-        setStartIndex(startIndex + 1);
-     }
-  }
-  
-   return (
-    <div className="py-10 px-4">
-      <h1 className="text-3xl font-bold mb-6 px-10">Featured Products</h1>
+    if (startIndex + visibleCount < products.length) {
+      setStartIndex(startIndex + 1);
+    }
+  };
+
+  return (
+    <div className="py-8 px-4">
+      <h1 className="text-2xl sm:text-3xl font-bold mb-6 px-10 sm:px-10">
+        Featured Products
+      </h1>
       <div className="flex items-center gap-2">
         {/* Left Arrow */}
         <button
@@ -34,9 +54,11 @@ function FeaturedProducts() {
         </button>
 
         {/* Products */}
-        <div className="flex gap-6 overflow-hidden">
-          {visibleProducts.map(product => (
-            <ProductCard key={product.id} product={product} />
+        <div className="flex-1 flex gap-4 sm:gap-6 overflow-hidden">
+          {visibleProducts.map((product) => (
+            <div key={product.id} className="flex-1">
+              <ProductCard product={product} />
+            </div>
           ))}
         </div>
 

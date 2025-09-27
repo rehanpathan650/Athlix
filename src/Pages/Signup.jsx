@@ -16,7 +16,7 @@ function Signup() {
   
   function handleClick(){
      if(!firstName || !lastName || !email || !password){
-        toast.error("please fill in all fields");
+        toast.error("Please fill in all fields");
         return;
      }
      setUser({firstName,lastName,email});
@@ -24,27 +24,68 @@ function Signup() {
   }
   
   return (
-    <div className='max-h-screen'>
+    <div className='min-h-screen flex flex-col'>
       <Navbar />
-    <div className='h-screen flex items-center px-100 bg-cover bg-center'
-         style={{backgroundImage:"url('./signup.png')"}}>
-         <div className='grid grid-cols-1 gap-8 pl-80'>
-            <div className='w-[320px]'>
-              <h1 className='text-3xl font-bold '>Sign up</h1> 
-              <p>Be part of our community — sign up to discover the latest features and deals.</p>
-            </div>
-            <div className='grid gap-5 items-center'>
-              <input required onChange={(e)=> setFirstName(e.target.value)} type="text" placeholder='First Name' className='py-2 px-2 border rounded'/>
-              <input required onChange={(e)=> setLastName(e.target.value)} type="text" placeholder='Last Name' className='py-2 px-2 border rounded'/>
-              <input required onChange={(e)=> setEmail(e.target.value)} type="text" placeholder='Email Address' className='py-2 px-2 border rounded'/>
-              <input required onChange={(e)=> setPassword(e.target.value)} type="password" placeholder='Password' className='py-2 px-2 border rounded'/>
-              <p>Already have an account? Log in</p>
-              <button onClick={handleClick} className='border rounded py-2 px-2 bg-black text-white'>Signup</button>
-            </div>
-         </div>
-    </div>
+      <div 
+        className='flex-1 flex items-center justify-center bg-cover bg-center px-4 sm:px-6'
+        style={{backgroundImage:"url('./signup.png')"}}
+      >
+        <div className='bg-white/80 backdrop-blur-sm p-6 rounded-lg shadow-md max-w-sm w-full space-y-6'>
+          <div>
+            <h1 className='text-2xl sm:text-3xl font-bold'>Sign Up</h1> 
+            <p className='text-sm sm:text-base text-gray-700'>
+              Be part of our community — sign up to discover the latest features and deals.
+            </p>
+          </div>
+          <div className='grid gap-4'>
+            <input 
+              required 
+              onChange={(e)=> setFirstName(e.target.value)} 
+              type="text" 
+              placeholder='First Name' 
+              className='py-2 px-3 border rounded w-full'
+            />
+            <input 
+              required 
+              onChange={(e)=> setLastName(e.target.value)} 
+              type="text" 
+              placeholder='Last Name' 
+              className='py-2 px-3 border rounded w-full'
+            />
+            <input 
+              required 
+              onChange={(e)=> setEmail(e.target.value)} 
+              type="text" 
+              placeholder='Email Address' 
+              className='py-2 px-3 border rounded w-full'
+            />
+            <input 
+              required 
+              onChange={(e)=> setPassword(e.target.value)} 
+              type="password" 
+              placeholder='Password' 
+              className='py-2 px-3 border rounded w-full'
+            />
+            <p className='text-sm'>
+              Already have an account?{" "}
+              <span 
+                onClick={()=>navigate("/login")} 
+                className='text-blue-600 cursor-pointer'
+              >
+                Log in
+              </span>
+            </p>
+            <button 
+              onClick={handleClick} 
+              className='w-full border rounded py-2 px-3 bg-black text-white font-semibold'
+            >
+              Signup
+            </button>
+          </div>
+        </div>
+      </div>
     </div>
   )
 }
 
-export default Signup;
+export default Signup
