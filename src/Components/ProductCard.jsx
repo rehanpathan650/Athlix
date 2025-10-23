@@ -5,14 +5,14 @@ function ProductCard({ product }) {
   const navigate = useNavigate();
 
   const handleViewDetails = () => {
-    navigate(`/product/${product.id}`); // consider product.uniqueId if needed
+    navigate(`/product/${product._id}`); // consider product.uniqueId if needed
   };
 
   return (
     <div className="rounded-lg shadow-md bg-gray-50 overflow-hidden w-full h-full hover:shadow-2xl
      transition flex flex-col">
   <img
-    src={product.image}
+    src={product.imageUrl}
     alt={product.name}
     className="w-full h-48 object-cover"
   />

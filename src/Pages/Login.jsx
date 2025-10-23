@@ -8,18 +8,50 @@ import {toast} from "react-toastify"
 function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [loading, setLoading] = useState(false);
   const setUser = useSetRecoilState(userAtom)
 
   const navigate = useNavigate();
 
-  function handleClick(){
-    if(!email || !password){
-       toast.error("Please fill in both email and password");
-       return;
-    }
-     setUser({email})
-     navigate("/");    
+  async function handleClick() {
+  if (!email || !password) {
+    toast.error("Please fill in both email and password");
+    return;
   }
+
+  setLoading(true);
+
+  try {
+    const response = await fetch("http://localhost:5000/api/auth/login", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ email, password }), // ✅ Must stringify
+    });
+
+    const data = await response.json();
+
+    if (!response.ok) {
+      throw new Error(data.message || "Login failed");
+    }
+
+    // Save user in Recoil
+    setUser(data);
+
+    // Persist login
+    localStorage.setItem("user", JSON.stringify(data));
+
+    toast.success(`Welcome back, ${data.name}!`);
+    navigate("/"); // Redirect to home
+  } catch (err) {
+    console.error(err);
+    toast.error(err.message);
+  } finally {
+    setLoading(false);
+  }
+}
+
   
   return (
     <div className='min-h-screen flex flex-col'>
@@ -57,7 +89,7 @@ function Login() {
               onClick={handleClick} 
               className='w-full border rounded py-2 px-3 bg-black text-white font-semibold'
             >
-              Login
+              {loading ? "Logging in..." : "Login"}
             </button>
           </div>
         </div>

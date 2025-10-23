@@ -6,6 +6,7 @@ import { HiMenu, HiX } from "react-icons/hi";
 import { useLocation, useNavigate } from "react-router-dom";
 import { userAtom } from "../state/userAtom";
 import { useRecoilValue, useSetRecoilState } from "recoil";
+import { cartAtom } from "../state/cartAtom";
 import athlix from "../assets/athlix2.png";
 
 function Navbar() {
@@ -15,6 +16,7 @@ function Navbar() {
   const location = useLocation();
   const [menuOpen, setMenuOpen] = useState(false);
 
+  const cart = useRecoilValue(cartAtom);
   const isActive = (path) => location.pathname === path;
 
   return (
@@ -36,7 +38,7 @@ function Navbar() {
         >
           About
         </button>
-        <button
+        <button 
           onClick={() => navigate("/product")}
           className={
             isActive("/product")
@@ -57,7 +59,15 @@ function Navbar() {
       </div>
 
       {/* Desktop User Section */}
-      <div className="hidden md:flex text-gray-500 items-center gap-5">
+      <div className=" hidden md:flex text-gray-500 items-center gap-5">
+        <button className="relative" onClick={() => navigate("/cart")}>
+              <IoCartOutline size={24} />
+               {cart.length > 0 && (
+      <span className="absolute -right-2 -top-2 bg-green-400 text-white text-xs w-5 h-5 flex items-center justify-center rounded-full">
+        {cart.reduce((total, item) => total + item.quantity, 0)}
+      </span>
+    )}
+        </button>
         {user ? (
           <>
             <button
@@ -71,9 +81,6 @@ function Navbar() {
               My Orders
             </button>
             <FaRegUser size={20} />
-            <button onClick={() => navigate("/cart")}>
-              <IoCartOutline size={24} />
-            </button>
             <button
               onClick={() => {
                 setUser(null);

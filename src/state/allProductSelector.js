@@ -1,12 +1,12 @@
 import { selector } from "recoil";
 import { productsAtom } from "./productsAtom";
-import { runningShoes } from "./runningShoes";
+import { runnersAtom } from "./runnersAtom";
 
 export const allProductsSelector = selector({
   key: "allProductsSelector",
   get: ({ get }) => {
     const products = get(productsAtom);
-    const runners = get(runningShoes);
+    const runners = get(runnersAtom);
     return [...products, ...runners];
   },
 });

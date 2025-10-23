@@ -1,13 +1,14 @@
 import React, { useState, useEffect } from 'react';
-import { useRecoilValue } from 'recoil';
-import { runningShoes } from '../state/runningShoes.js';
+import { useRecoilValue,useSetRecoilState } from 'recoil';
+import { runnersAtom } from '../state/runnersAtom.js';
 import { FaArrowLeftLong, FaArrowRightLong } from "react-icons/fa6";
 import ProductCard from './ProductCard.jsx';
 
 function RunnersChoice() {
   const [startIndex, setStartIndex] = useState(0);
   const [visibleCount, setVisibleCount] = useState(5);
-  const products = useRecoilValue(runningShoes);
+  const products = useRecoilValue(runnersAtom);
+  const setProducts = useSetRecoilState(runnersAtom)
 
   // Example: filter products for runners
   const runnersProducts = products;
@@ -25,6 +26,13 @@ function RunnersChoice() {
 
     return () => window.removeEventListener("resize", updateVisibleCount);
   }, []);
+
+   useEffect(() => {
+    fetch("http://localhost:5000/api/products")
+      .then((res) => res.json())
+      .then((data) => setProducts(data.slice(15, 26)))
+      .catch((err) => console.error("Error fetching products:", err));
+  }, [setProducts]);
 
   const visibleProducts = runnersProducts.slice(startIndex, startIndex + visibleCount);
 
@@ -50,7 +58,7 @@ function RunnersChoice() {
 
         <div className="flex-1 flex gap-4 sm:gap-6 overflow-hidden">
   {visibleProducts.map((product) => (
-    <ProductCard key={product.id} product={product} />
+    <ProductCard key={product._id} product={product} />
   ))}
 </div>
         <button

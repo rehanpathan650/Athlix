@@ -10,18 +10,52 @@ function Signup() {
   const [lastName, setLastName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const setUser = useSetRecoilState(userAtom);
+  const [loading, setLoading] = useState(false);
 
+  const setUser = useSetRecoilState(userAtom);
   const navigate = useNavigate();
-  
-  function handleClick(){
-     if(!firstName || !lastName || !email || !password){
-        toast.error("Please fill in all fields");
-        return;
-     }
-     setUser({firstName,lastName,email});
-     navigate("/");    
+
+  async function handleClick() {
+  if (!firstName || !lastName || !email || !password) {
+    toast.error("Please fill in all fields");
+    return;
   }
+
+  setLoading(true); // optional loading state
+
+  try {
+    const response = await fetch("http://localhost:5000/api/auth/signup", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        name: firstName + " " + lastName,
+        email,
+        password,
+      }),
+    });
+
+    const data = await response.json();
+
+    if (!response.ok) {
+      throw new Error(data.message || "Signup failed");
+    }
+
+    // Save user in Recoil
+    setUser(data);
+
+    // Persist login
+    localStorage.setItem("user", JSON.stringify(data));
+
+    toast.success(`Welcome, ${data.name}!`);
+    navigate("/"); // Redirect to home
+  } catch (err) {
+    console.error(err);
+    toast.error(err.message);
+  } finally {
+    setLoading(false);
+  }
+}
+
   
   return (
     <div className='min-h-screen flex flex-col'>

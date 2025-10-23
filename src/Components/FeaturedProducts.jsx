@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useRecoilValue } from "recoil";
+import { useRecoilValue,useSetRecoilState } from "recoil";
 import { productsAtom } from "../state/productsAtom";
 import ProductCard from "./ProductCard";
 import { FaArrowLeftLong, FaArrowRightLong } from "react-icons/fa6";
@@ -8,6 +8,7 @@ function FeaturedProducts() {
   const [startIndex, setStartIndex] = useState(0);
   const [visibleCount, setVisibleCount] = useState(5); // default desktop
   const products = useRecoilValue(productsAtom);
+  const setProducts = useSetRecoilState(productsAtom);
 
   // Adjust visible count based on screen size
   useEffect(() => {
@@ -24,6 +25,13 @@ function FeaturedProducts() {
     updateVisibleCount();
     window.addEventListener("resize", updateVisibleCount);
     return () => window.removeEventListener("resize", updateVisibleCount);
+  }, []);
+
+  useEffect(() => {
+  fetch("http://localhost:5000/api/products")
+    .then(res => res.json())
+    .then(data => setProducts(data.slice(0, 15)))
+    .catch(err => console.error(err));
   }, []);
 
   const visibleProducts = products.slice(startIndex, startIndex + visibleCount);

@@ -7,7 +7,7 @@ import Footer from "../Components/Footer";
 
 function Product() {
   const allProducts = useRecoilValue(allProductsSelector);
-
+  
   return (
     <div className="min-h-screen flex flex-col gap-2">
       <Navbar />
