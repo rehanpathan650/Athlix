@@ -8,7 +8,7 @@ import Footer from "../Components/Footer";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 
-const API_URL = "https://athlix.vercel.app/api/cart";
+const API_URL = `${import.meta.env.VITE_REACT_APP_BACKEND_BASEURL}/api/cart`;
 
 function CartPage() {
   const [cart, setCart] = useRecoilState(cartAtom);
@@ -186,7 +186,7 @@ function CartPage() {
     };
 
     try {
-      const res = await fetch("https://athlix.vercel.app/api/orders/place", {
+      const res = await fetch(`${import.meta.env.VITE_REACT_APP_BACKEND_BASEURL}/api/orders/place`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(orderPayload),

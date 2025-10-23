@@ -28,7 +28,7 @@ function RunnersChoice() {
   }, []);
 
    useEffect(() => {
-    fetch("https://athlix.vercel.app/api/products")
+    fetch(`${import.meta.env.VITE_REACT_APP_BACKEND_BASEURL}/api/products`)
       .then((res) => res.json())
       .then((data) => setProducts(data.slice(15, 26)))
       .catch((err) => console.error("Error fetching products:", err));

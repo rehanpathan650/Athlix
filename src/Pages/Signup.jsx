@@ -24,7 +24,7 @@ function Signup() {
   setLoading(true); // optional loading state
 
   try {
-    const response = await fetch("https://athlix.vercel.app/api/auth/signup", {
+    const response = await fetch(`${import.meta.env.VITE_REACT_APP_BACKEND_BASEURL}/api/auth/signup`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
