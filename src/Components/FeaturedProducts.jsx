@@ -28,7 +28,7 @@ function FeaturedProducts() {
   }, []);
 
   useEffect(() => {
-  fetch("http://localhost:5000/api/products")
+  fetch("https://athlix.vercel.app/api/products")
     .then(res => res.json())
     .then(data => setProducts(data.slice(0, 15)))
     .catch(err => console.error(err));

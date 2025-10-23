@@ -14,7 +14,7 @@ export default function MyOrders() {
   useEffect(() => {
     if (!user) return;
 
-    fetch(`http://localhost:5000/api/orders/${user._id}`)
+    fetch(`https://athlix.vercel.app/api/orders/${user._id}`)
       .then((res) => res.json())
       .then((data) => setOrders(data))
       .catch(() => toast.error("Failed to load orders"));
@@ -23,7 +23,7 @@ export default function MyOrders() {
   // ✅ Cancel Order API call
   const handleCancelOrder = async (orderId) => {
     try {
-      const res = await fetch(`http://localhost:5000/api/orders/cancel/${orderId}`, {
+      const res = await fetch(`https://athlix.vercel.app/api/orders/cancel/${orderId}`, {
         method: "DELETE",
       });
 

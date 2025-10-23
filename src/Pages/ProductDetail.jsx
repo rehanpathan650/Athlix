@@ -49,7 +49,7 @@ export default function ProductDetail() {
     // ✅ If logged in, sync with backend schema format
     if (user?._id) {
       try {
-        await fetch("http://localhost:5000/api/cart/add", {
+        await fetch("https://athlix.vercel.app/api/cart/add", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({

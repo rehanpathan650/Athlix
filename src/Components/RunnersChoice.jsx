@@ -28,7 +28,7 @@ function RunnersChoice() {
   }, []);
 
    useEffect(() => {
-    fetch("http://localhost:5000/api/products")
+    fetch("https://athlix.vercel.app/api/products")
       .then((res) => res.json())
       .then((data) => setProducts(data.slice(15, 26)))
       .catch((err) => console.error("Error fetching products:", err));
